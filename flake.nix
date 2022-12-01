@@ -56,7 +56,8 @@
           });
         in
         pkgs.devshell.mkShell {
-          motd = "";
+	  name = "zephyr";
+          motd = "Zephyr Development with Nix";
           packages = builtins.attrValues {
             inherit
               zephyr-sdk
@@ -109,7 +110,7 @@
             { name = "LD_LIBRARY_PATH"; eval = "${pkgs.libusb-compat-0_1}/lib:$LD_LIBRARY_PATH"; }
             { name = "ARMFVP_BIN_PATH"; value = pkgs.fvpCorestone; }
           ];
-        };
+	};
     in
     flake-utils.lib.eachDefaultSystem (system: {
       devShell = mkZephyrShell (import nixpkgs {
