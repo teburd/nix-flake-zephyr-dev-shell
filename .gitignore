@@ -1,0 +1,7 @@
+# Ignore everything but nix/flake
+*
+!.gitignore
+!README.md
+!flake.nix
+!flake.lock
+!nix
