@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, which, python38, autoPatchelfHook, lib }:
+{ stdenv, fetchurl, which, python38, autoPatchelfHook, lib, pkgs }:
 let
   version = "0.15.0";
 in
@@ -14,7 +14,12 @@ stdenv.mkDerivation {
   ];
   buildInputs = [
     stdenv.cc.cc.lib
+    pkgs.makeWrapper
     python38
   ];
-  installPhase = "mkdir $out; cp -r . $out";
+  installPhase = ''
+	mkdir $out
+	cp -r . $out
+	wrapProgram $out/zephyr-sdk-x86_64-hosttools-standalone-0.9.sh --add-flags "-y -d $out"
+	'';
 }

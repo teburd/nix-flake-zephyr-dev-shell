@@ -11,17 +11,19 @@
       local-pythonpkgs = ".pythonpkgs";
       mkZephyrShell = pkgs:
         let
-          zephyr-sdk-arm = pkgs.makeZephyrSdk
-            "arm" "sha256-D4CI4hgipnJwy9OPxurGA9PH0b7g0XhsygPrvlXOzFo=";
-          zephyr-sdk-x64 = pkgs.makeZephyrSdk
-            "x86_64" "sha256-8e9fhtnFA/03YOqbYa8do+JNzxfOYpeoVtA/XchJmoo=";
-          zephyr-sdk = pkgs.symlinkJoin {
-            name = "Zephyr-SDK";
-            paths = [
-              zephyr-sdk-arm
-              zephyr-sdk-x64
-            ];
-          };
+	   zephyr-sdk = pkgs.makeZephyrSdk;
+#          zephyr-sdk-arm = pkgs.makeZephyrSdk {
+#            "arm" "sha256-D4CI4hgipnJwy9OPxurGA9PH0b7g0XhsygPrvlXOzFo=";
+#	  };
+#          zephyr-sdk-x64 = pkgs.makeZephyrSdk
+#            "x86_64" "sha256-8e9fhtnFA/03YOqbYa8do+JNzxfOYpeoVtA/XchJmoo=";
+#          zephyr-sdk = pkgs.symlinkJoin {
+#            name = "Zephyr-SDK";
+#            paths = [
+#              zephyr-sdk-arm
+#              zephyr-sdk-x64
+#            ];
+#          };
           python-packages = pkgs.python3.withPackages (p: builtins.attrValues {
             inherit (p)
               pyelftools
@@ -57,8 +59,9 @@
           motd = "";
           packages = builtins.attrValues {
             inherit
+              zephyr-sdk
               python-packages
-              zephyr-sdk;
+              ;
             inherit (pkgs)
               uncrustify
               gitlint
