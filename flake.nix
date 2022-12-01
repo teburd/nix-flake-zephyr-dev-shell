@@ -56,7 +56,7 @@
           });
         in
         pkgs.devshell.mkShell {
-	  name = "zephyr";
+	  name = "zephyr-sdk-" + zephyr-sdk.version;
           motd = "Zephyr Development with Nix";
           packages = builtins.attrValues {
             inherit
