@@ -10,21 +10,9 @@
     let
       local-pythonpkgs = ".pythonpkgs";
       mkZephyrShell = pkgs:
-        let
-	   zephyr-sdk = pkgs.makeZephyrSdk;
-#          zephyr-sdk-arm = pkgs.makeZephyrSdk {
-#            "arm" "sha256-D4CI4hgipnJwy9OPxurGA9PH0b7g0XhsygPrvlXOzFo=";
-#	  };
-#          zephyr-sdk-x64 = pkgs.makeZephyrSdk
-#            "x86_64" "sha256-8e9fhtnFA/03YOqbYa8do+JNzxfOYpeoVtA/XchJmoo=";
-#          zephyr-sdk = pkgs.symlinkJoin {
-#            name = "Zephyr-SDK";
-#            paths = [
-#              zephyr-sdk-arm
-#              zephyr-sdk-x64
-#            ];
-#          };
-          python-packages = pkgs.python3.withPackages (p: builtins.attrValues {
+        let 
+        zephyr-sdk = pkgs.zephyrSdk;
+        python-packages = pkgs.python3.withPackages (p: builtins.attrValues {
             inherit (p)
               pyelftools
               pyyaml
@@ -52,49 +40,28 @@
               junitparser
               magic;
             # TODO: find a way to add this to the overlay
-            imgtool = (p.callPackage ./nix/python-imgtool.nix { });
+            #imgtool = (p.callPackage ./nix/python-imgtool.nix { });
           });
         in
         pkgs.devshell.mkShell {
 	  name = "zephyr-sdk-" + zephyr-sdk.version;
-          motd = "Zephyr Development with Nix";
+          motd = "Zephyr Development with Nix\n" +
+		             " SDK: ${zephyr-sdk}";
           packages = builtins.attrValues {
             inherit
               zephyr-sdk
               python-packages
               ;
             inherit (pkgs)
-              uncrustify
-              gitlint
-              openssl
               binutils
-              gcc-arm-embedded
               ninja
               gperf
               ccache
               cmake
               dtc
               gnumake
-              # For mcuboot development, we want both Rust and go.
-              go
-              pkgconfig
-              mbedtls
-              cargo
-              cargo-deps
               # debug utilities
-              gdb
-              # rust
-              cargo-watch
-              cargo-binutils
-              rustc
-              # crud for "native" zephyr sockets
-              glib
-              libpcap
-              libtool
-              automake
-              autoconf
-              socat
-              bridge-utils;
+              gdb;
             inherit (pkgs.stdenv) cc;
             inherit (pkgs.unixtools) xxd;
             openssl-dev = pkgs.openssl.dev;

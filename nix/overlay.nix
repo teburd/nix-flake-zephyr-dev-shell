@@ -1,6 +1,6 @@
 final: prior: {
   jlink = final.callPackage ./jlink.nix { };
-  makeZephyrSdk = final.callPackage ./make-zephyr-sdk.nix { };
+  zephyrSdk = final.callPackage ./zephyr-sdk.nix { };
   fvpCorestone = final.callPackage ./make-fvp.nix { };
   python3 = prior.python3.override {
     packageOverrides = pyfinal: pyprior: {
