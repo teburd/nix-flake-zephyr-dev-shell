@@ -1,7 +1,8 @@
-# Ignore everything but nix/flake
+# Ignore everything
 *
+
+# But not these files
 !.gitignore
-!README.md
 !flake.nix
 !flake.lock
-!nix
+!nix/*.nix
