@@ -61,6 +61,7 @@
               pkgs.gnumake
               pkgs.gdb
               pkgs.segger-jlink
+              pkgs.nrf-command-line-tools
               pkgs.xxd
               pkgs.nixpkgs-fmt
             ];
