@@ -24,6 +24,8 @@
               packaging
               progress
               psutil
+              pylink-square
+              requests
               anytree
               west
               cryptography
@@ -51,6 +53,7 @@
             packages = [
               zephyr-sdk
               python-packages
+              pkgs.minicom
               pkgs.pyocd
               pkgs.binutils
               pkgs.ninja
