@@ -15,6 +15,7 @@
             overlays = [ devshell.overlays.default ];
           };
           zephyr-sdk = pkgs.callPackage ./nix/zephyr-sdk.nix { };
+          rimage = pkgs.callPackage ./nix/rimage.nix { };
           python-packages = pkgs.python3.withPackages (p: builtins.attrValues {
             inherit (p)
               pyelftools
@@ -33,6 +34,7 @@
               click
               cbor
               jinja2
+              sigrok
               # imgtool -- mcuboot's imagetool
               pip
               pyusb
@@ -47,11 +49,12 @@
           });
         in
           pkgs.devshell.mkShell {
-            name = "zephyr-sdk-" + zephyr-sdk.version;
+            name = "zephyr-" + zephyr-sdk.version;
             motd = "Zephyr Development with Nix\n" +
                    " SDK: ${zephyr-sdk}";
             packages = [
               zephyr-sdk
+              rimage
               python-packages
               pkgs.minicom
               pkgs.pyocd

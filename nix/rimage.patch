@@ -1,0 +1,13 @@
+diff --git a/src/adsp_config.c b/src/adsp_config.c
+index 4cab5cb..82e1fb1 100644
+--- a/src/adsp_config.c
++++ b/src/adsp_config.c
+@@ -1839,7 +1839,7 @@ static int parse_module(const toml_table_t *toml, struct parse_ctx *pctx,
+ 	toml_table_t *mod_entry;
+ 	struct parse_ctx ctx;
+ 	int entry_count;
+-	int type, ext_length;
++	int type, ext_length = 0;
+ 	int tmp_cfg_count;
+ 	int ret, i;
+ 
