@@ -12,7 +12,9 @@
             inherit system;
             config.allowUnfree = true;
             config.segger-jlink.acceptLicense = true;
-            overlays = [ devshell.overlays.default ];
+            overlays = [
+              devshell.overlays.default
+            ];
           };
           zephyr-sdk = pkgs.callPackage ./nix/zephyr-sdk.nix { };
           rimage = pkgs.callPackage ./nix/rimage.nix { };
@@ -58,7 +60,6 @@
               python-packages
               pkgs.minicom
               pkgs.pyocd
-              pkgs.binutils
               pkgs.ninja
               pkgs.gperf
               pkgs.ccache
@@ -70,6 +71,7 @@
               pkgs.nrf-command-line-tools
               pkgs.xxd
               pkgs.nixpkgs-fmt
+              pkgs.pkgsi686Linux.gcc
             ];
             env = [
               { name = "ZEPHYR_SDK_INSTALL_DIR"; value = "${zephyr-sdk}"; }
