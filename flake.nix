@@ -45,6 +45,14 @@
               pyserial
               tabulate
               GitPython
+              # doc deps
+              breathe
+              sphinx
+              sphinx-notfound-page
+              sphinx-copybutton
+              sphinx_rtd_theme
+              sphinx-tabs
+              pygments
               # check copliance deps
               junitparser
               magic;
@@ -72,6 +80,8 @@
               pkgs.xxd
               pkgs.nixpkgs-fmt
               pkgs.pkgsi686Linux.gcc
+              pkgs.doxygen
+              pkgs.graphviz-nox
             ];
             env = [
               { name = "ZEPHYR_SDK_INSTALL_DIR"; value = "${zephyr-sdk}"; }
