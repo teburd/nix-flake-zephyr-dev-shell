@@ -16,7 +16,7 @@
               devshell.overlays.default
             ];
           };
-          zephyr-sdk = pkgs.callPackage ./nix/zephyr-sdk.nix { };
+          zephyr-sdk = pkgs.callPackage ./nix/zephyr-sdk.nix { version = "0.16.0"; };
           rimage = pkgs.callPackage ./nix/rimage.nix { };
           python-packages = pkgs.python3.withPackages (p: builtins.attrValues {
             inherit (p)
@@ -45,6 +45,7 @@
               pyserial
               tabulate
               GitPython
+              natsort
               # doc deps
               breathe
               sphinx
@@ -87,6 +88,11 @@
               { name = "ZEPHYR_SDK_INSTALL_DIR"; value = "${zephyr-sdk}"; }
               { name = "PYTHONPATH"; eval = "${python-packages}/lib/python3.9/site-packages:$PYTHONPATH"; }
               { name = "LD_LIBRARY_PATH"; eval = "${pkgs.libusb-compat-0_1}/lib:$LD_LIBRARY_PATH"; }
+              { name = "ZEPHYR_BASE"; value = "$HOME/z/zephyr"; }
+              { name = "CAVS_HOST"; value = "rawr"; }
+              { name = "CAVS_RIMAGE"; value = "$ZEPHYR_BASE/../modules/audio/sof/rimage"; }
+              { name = "CAVS_KEY"; value = "$ZEPHYR_BASE/../modules/audio/sof/keys/otc_private_key_3k.pem"; }
+              { name = "CAVS_OLD_FLASHER"; value = "1"; }
             ];
           };
     });
