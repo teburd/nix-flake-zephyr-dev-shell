@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, which, autoPatchelfHook, lib, pkgs, version ? "0.16.1" }:
+{ stdenv, fetchurl, which, autoPatchelfHook, patchelf, lib, pkgs, version ? "0.16.1" }:
 let
   versions = {
     "0.16.1" = {
@@ -16,6 +16,8 @@ stdenv.mkDerivation {
     url = "https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${version}/zephyr-sdk-${version}_linux-x86_64.tar.xz";
     hash = versions.${version}.hash;
   };
+  preBuild = ''
+  '';
   nativeBuildInputs = [
     autoPatchelfHook
   ];
@@ -27,9 +29,16 @@ stdenv.mkDerivation {
     pkgs.python38
   ];
   dontConfigure=true;
+
+  # a number of shared libs do not have the runpath correctly set, so we need to fix that
+  #preFixup = ''
+  #     patchelf --set-rpath $out/sysroot/x86_64-pokysdk/lib $out/sysroot/x86_64/pokysdk/lib/libusb-1.0.so.0
+  #     '';
+
   buildPhase = ''
        ./zephyr-sdk-x86_64-hosttools-standalone-0.9.sh -y -d .
        '';
+
   installPhase = ''
         cp -r . $out
         mkdir -p $out/bin

@@ -18,8 +18,8 @@
           };
           zephyr-sdk = pkgs.callPackage ./nix/zephyr-sdk.nix { version = "0.16.1"; };
           rimage = pkgs.callPackage ./nix/rimage.nix { };
-          python-packages = pkgs.python3.withPackages (p: builtins.attrValues {
-            inherit (p)
+          docleaf = ps: ps.callPackage ./nix/docleaf.nix { };
+          zephyr-python-packages = ps: with ps; [
               pyelftools
               pyyaml
               pykwalify
@@ -47,17 +47,18 @@
               GitPython
               natsort
               # doc deps
-              breathe
               sphinx
               sphinx-notfound-page
               sphinx-copybutton
               sphinx_rtd_theme
               sphinx-tabs
               pygments
+              (docleaf ps)
               # check copliance deps
               junitparser
-              magic;
-          });
+              magic
+          ];
+          zephyr-python = pkgs.python3.withPackages zephyr-python-packages;
         in
           pkgs.devshell.mkShell {
             name = "zephyr-" + zephyr-sdk.version;
@@ -66,7 +67,7 @@
             packages = [
               zephyr-sdk
               rimage
-              python-packages
+              zephyr-python 
               pkgs.minicom
               pkgs.pyocd
               pkgs.ninja
@@ -86,8 +87,6 @@
             ];
             env = [
               { name = "ZEPHYR_SDK_INSTALL_DIR"; value = "${zephyr-sdk}"; }
-              { name = "PYTHONPATH"; eval = "${python-packages}/lib/python3.9/site-packages:$PYTHONPATH"; }
-              { name = "LD_LIBRARY_PATH"; eval = "${pkgs.libusb-compat-0_1}/lib:$LD_LIBRARY_PATH"; }
               { name = "ZEPHYR_BASE"; value = "/home/tburdick/z/zephyr"; }
               { name = "CAVS_HOST"; value = "rawr"; }
               { name = "CAVS_RIMAGE"; eval = "$ZEPHYR_BASE/../modules/audio/sof/rimage"; }

@@ -5,4 +5,4 @@
 !.gitignore
 !flake.nix
 !flake.lock
-!nix/*.nix
+!/nix/*
