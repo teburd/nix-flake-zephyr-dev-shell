@@ -31,9 +31,9 @@ stdenv.mkDerivation {
   dontConfigure=true;
 
   # a number of shared libs do not have the runpath correctly set, so we need to fix that
-  #preFixup = ''
-  #     patchelf --set-rpath $out/sysroot/x86_64-pokysdk/lib $out/sysroot/x86_64/pokysdk/lib/libusb-1.0.so.0
-  #     '';
+#  preFixup = ''
+#       patchelf --set-rpath $out/sysroot/x86_64-pokysdk/lib $out/sysroot/x86_64/pokysdk/lib/libusb-1.0.so.0
+#       '';
 
   buildPhase = ''
        ./zephyr-sdk-x86_64-hosttools-standalone-0.9.sh -y -d .
@@ -43,5 +43,8 @@ stdenv.mkDerivation {
         cp -r . $out
         mkdir -p $out/bin
         ln -s $out/*/bin/* $out/bin/.
+        ln -s $out/sysroots/x86_64-pokysdk-linux/usr/bin/qemu-* $out/bin/
+        rm -f $out/sysroots/x86_64-pokysdk-linux/lib/libc*
+        rm -f $out/sysroots/x86_64-pokysdk-linux/lib/libpthread*
         '';
 }
