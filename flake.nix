@@ -52,7 +52,9 @@
               sphinx-copybutton
               sphinx_rtd_theme
               sphinx-tabs
+              sphinx-togglebutton
               pygments
+              breathe
               (docleaf ps)
               # check copliance deps
               junitparser

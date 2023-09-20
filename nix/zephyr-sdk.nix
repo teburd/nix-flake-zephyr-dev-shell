@@ -46,5 +46,6 @@ stdenv.mkDerivation {
         ln -s $out/sysroots/x86_64-pokysdk-linux/usr/bin/qemu-* $out/bin/
         rm -f $out/sysroots/x86_64-pokysdk-linux/lib/libc*
         rm -f $out/sysroots/x86_64-pokysdk-linux/lib/libpthread*
+        rm -f $out/sysroots/x86_64-pokysdk-linux/lib/librt*
         '';
 }
