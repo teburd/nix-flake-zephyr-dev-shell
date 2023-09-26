@@ -37,6 +37,7 @@
               cbor
               jinja2
               sigrok
+              pyocd
               # imgtool -- mcuboot's imagetool
               pip
               pyusb
@@ -71,7 +72,6 @@
               rimage
               zephyr-python 
               pkgs.minicom
-              pkgs.pyocd
               pkgs.ninja
               pkgs.gperf
               pkgs.ccache
