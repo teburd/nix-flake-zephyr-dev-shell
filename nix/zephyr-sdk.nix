@@ -1,8 +1,11 @@
-{ stdenv, fetchurl, which, autoPatchelfHook, patchelf, lib, pkgs, version ? "0.16.1" }:
+{ stdenv, fetchurl, which, autoPatchelfHook, patchelf, lib, pkgs, version ? "0.16.3" }:
 let
   versions = {
+    "0.16.3" = {
+      hash = "sha256-nrVX0J0OnU4LJ/gWBSUKBhi7kp5COYfvQBZ6MwfIImI=";
+    };
     "0.16.1" = {
-      hash = "sha256-UTONUapM6iUWZBzg2dwLUbdjd58A3EVkorwN1xPfIsc="; 	
+      hash = "sha256-UTONUapM6iUWZBzg2dwLUbdjd58A3EVkorwN1xPfIsc=";
     };
     "0.16.0" = {
       hash = "sha256-Y/0qcP6UHJLMkr8T9aUP94XAvRBRRg7GYVQs0QuQUs0=";
@@ -44,7 +47,10 @@ stdenv.mkDerivation {
         mkdir -p $out/bin
         ln -s $out/*/bin/* $out/bin/.
         ln -s $out/sysroots/x86_64-pokysdk-linux/usr/bin/qemu-* $out/bin/
+	# remove duplicate shared libs for C, use the system libraries 
         rm -f $out/sysroots/x86_64-pokysdk-linux/lib/libc*
+	rm -f $out/sysroots/x86_64-pokysdk-linux/lib/libdl*
+	rm -f $out/sysroots/x86_64-pokysdk-linux/lib/libm*
         rm -f $out/sysroots/x86_64-pokysdk-linux/lib/libpthread*
         rm -f $out/sysroots/x86_64-pokysdk-linux/lib/librt*
         '';
