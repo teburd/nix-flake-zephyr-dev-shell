@@ -1,6 +1,9 @@
 { stdenv, fetchurl, which, autoPatchelfHook, patchelf, lib, pkgs, version ? "0.16.3" }:
 let
   versions = {
+    "0.16.4" = {
+      hash = "sha256-0BmqqjQlyoQliCm1GOsfhy6XNu1Py7bZQIxMs3zSfjE=";
+    };
     "0.16.3" = {
       hash = "sha256-nrVX0J0OnU4LJ/gWBSUKBhi7kp5COYfvQBZ6MwfIImI=";
     };

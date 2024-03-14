@@ -30,14 +30,15 @@
           config.segger-jlink.acceptLicense = true;
         };
 	llvm = pkgs.llvmPackages_latest;
-        zephyr-sdk = pkgs.callPackage ./nix/zephyr-sdk.nix { version = "0.16.0"; };
+        zephyr-sdk = pkgs.callPackage ./nix/zephyr-sdk.nix { version = "0.16.4"; };
         rimage = pkgs.callPackage ./nix/rimage.nix { };
         docleaf = ps: ps.callPackage ./nix/docleaf.nix { };
 	sphinxcontrib-svg2pdfconverter = ps: ps.callPackage ./nix/sphinxcontrib-svg2pdfconverter.nix { };
         zephyr-python-packages = ps: with ps; [
             pip
             virtualenv
-            pyocd 
+            pyocd
+            python-magic
         ];
         zephyr-python = pkgs.python3.withPackages zephyr-python-packages;
       in
@@ -47,6 +48,7 @@
               zephyr-sdk
               rimage
               zephyr-python 
+              pkgs.tree
               pkgs.minicom
               pkgs.ninja
               pkgs.gperf
@@ -77,7 +79,7 @@
               export CAVS_RIMAGE="$ZEPHYR_BASE/../modules/audio/sof/rimage"
               export CAVS_KEY="$ZEPHYR_BASE/../modules/audio/sof/keys/otc_private_key_3k.pem"
               export CAVS_OLD_FLASHER=1
-              export LD_LIBRARY_PATH="${pkgs.segger-jlink}/lib"
+              export LD_LIBRARY_PATH="${pkgs.segger-jlink}/lib;${pkgs.file}/lib"
               exec fish
               '';
           };
