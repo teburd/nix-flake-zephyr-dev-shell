@@ -1,6 +1,9 @@
 { stdenv, fetchurl, which, autoPatchelfHook, patchelf, lib, pkgs, version ? "0.16.3" }:
 let
   versions = {
+    "0.16.8" = {
+      hash = "sha256-y05AEnUeRSaq8eweirm03tVoHi4BcRtk96G1Gf99vGo=";
+    };
     "0.16.4" = {
       hash = "sha256-0BmqqjQlyoQliCm1GOsfhy6XNu1Py7bZQIxMs3zSfjE=";
     };
@@ -32,14 +35,15 @@ stdenv.mkDerivation {
     pkgs.makeWrapper
     pkgs.cmake
     pkgs.which
-    pkgs.python38
+    pkgs.python39
   ];
   dontConfigure=true;
 
-  # a number of shared libs do not have the runpath correctly set, so we need to fix that
-#  preFixup = ''
-#       patchelf --set-rpath $out/sysroot/x86_64-pokysdk/lib $out/sysroot/x86_64/pokysdk/lib/libusb-1.0.so.0
-#       '';
+  # The sdk depends on python38 for the various gdb-py binaries for each arch, 3.8 is long since unsupported
+  # and nixos 24.05+ dropped it, so patch elf replacing the so dependency with the python3 package libpython3.x.so.1.0
+  preFixup = ''
+       find $out -name "*-gdb-py" | xargs patchelf --replace-needed libpython3.8.so.1.0 ${pkgs.python39}/lib/libpython3.9.so.1.0 
+       '';
 
   buildPhase = ''
        ./zephyr-sdk-x86_64-hosttools-standalone-0.9.sh -y -d .
