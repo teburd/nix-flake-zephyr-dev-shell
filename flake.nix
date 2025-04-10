@@ -2,7 +2,7 @@
   description = "Development Environment for Zephyr";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -15,7 +15,7 @@
           config.allowUnfree = true;
           config.segger-jlink.acceptLicense = true;
           config.permittedInsecurePackages = [
-            "segger-jlink-qt4-794l"
+            "segger-jlink-qt4-796s"
           ];
         };
 	llvm = pkgs.llvmPackages_latest;
@@ -47,6 +47,7 @@
               pkgs.meson
               pkgs.dtc
               pkgs.gnumake
+              pkgs.qemu
               pkgs.gdb
               pkgs.segger-jlink
               pkgs.nrf-command-line-tools
@@ -66,14 +67,11 @@
               pkgs.clang-tools
               pkgs.glib
               rustup
+              espup
             ];
             shellHook =''
               export ZEPHYR_SDK_INSTALL_DIR="${zephyr-sdk}"
-              export ZEPHYR_BASE=/home/tburdick/z/zephyr
-              export CAVS_HOST="rawr"
-              export CAVS_RIMAGE="$ZEPHYR_BASE/../modules/audio/sof/rimage"
-              export CAVS_KEY="$ZEPHYR_BASE/../modules/audio/sof/keys/otc_private_key_3k.pem"
-              export CAVS_OLD_FLASHER=1
+              #export ZEPHYR_BASE=/home/tburdick/z/zephyr
               export LD_LIBRARY_PATH="${pkgs.segger-jlink}/lib;${pkgs.file}/lib"
               exec fish
               '';
